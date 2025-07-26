@@ -3,8 +3,9 @@ import CourseHeader from "@/components/Course/CourseHeader";
 import Footer from "@/components/shared/Footer";
 import { getCourses } from "@/services/Courses";
 
-export default async function Home(params: { searchParams: { lang: string } }) {
-  const lang = params.searchParams.lang || "bn";
+export default async function Home(params: { searchParams: Promise<{ lang: string }> }) {
+  const searchParams = await params.searchParams;
+  const lang = searchParams.lang || "bn";
 
 
   const courseDatas = await getCourses(lang)
@@ -12,7 +13,7 @@ export default async function Home(params: { searchParams: { lang: string } }) {
 
   return (
     <>
-      <Course courseData={courseDatas?.data} lang={params.searchParams.lang} />
+      <Course courseData={courseDatas?.data} lang={lang} />
       <Footer />
     </>
   );

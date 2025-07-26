@@ -2,25 +2,31 @@
 'use client'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 interface CourseHeaderProps {
   courseData: any;
-  lang: string;
+  lang: Promise<string> | string;
 }
 
-const LANGS = [
-  { code: 'en', label: 'English' },
-  { code: 'bn', label: 'বাংলা' },
-];
-
 const CourseHeader: React.FC<CourseHeaderProps> = ({ courseData, lang }) => {
+  const [currentLang, setCurrentLang] = useState<string>('en');
+
+  // Handle async lang prop
+  useEffect(() => {
+    if (typeof lang === 'string') {
+      setCurrentLang(lang);
+    } else if (lang instanceof Promise) {
+      lang.then(setCurrentLang).catch(() => setCurrentLang('en'));
+    }
+  }, [lang]);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   // Toggle between 'en' and 'bn'
   const handleLangToggle = () => {
-    const nextLang = lang === 'en' ? 'bn' : 'en';
+    const nextLang = currentLang === 'en' ? 'bn' : 'en';
     // Build new search params
     const params = new URLSearchParams(searchParams?.toString() || '');
     params.set('lang', nextLang);
@@ -45,7 +51,7 @@ const CourseHeader: React.FC<CourseHeaderProps> = ({ courseData, lang }) => {
                 onClick={handleLangToggle}
                 aria-label="Toggle language"
               >
-                {lang === 'en' ? 'BN' : 'EN'}
+                {currentLang === 'en' ? 'BN' : 'EN'}
               </button>
               <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
                 Enroll Now

@@ -3,6 +3,7 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface CourseHeaderProps {
   courseData: any;
@@ -41,13 +42,19 @@ const CourseHeader: React.FC<CourseHeaderProps> = ({ courseData, lang }) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <span className="text-xl font-semibold text-gray-800">
-                <Image src="https://cdn.10minuteschool.com/images/svg/10mslogo-svg.svg" alt="10 Minutes School" width={100} height={100} />
+                <Link href="/">
+                  <Image src="https://cdn.10minuteschool.com/images/svg/10mslogo-svg.svg" alt="10 Minutes School" width={100} height={100} />
+                </Link>
               </span>
             </div>
             <div className="flex items-center space-x-4">
               {/* Language Toggle Button */}
               <button
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                className={`px-6 py-2 rounded-lg transition-colors ${
+                  currentLang === 'en'
+                    ? 'bg-pink-600 text-white hover:bg-pink-700'
+                    : 'bg-gray-500 text-white hover:bg-gray-600'
+                }`}
                 onClick={handleLangToggle}
                 aria-label="Toggle language"
               >

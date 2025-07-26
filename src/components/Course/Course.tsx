@@ -120,21 +120,24 @@ const Course = ({ courseData, lang }: { courseData: any, lang: string }) => {
                       <div className="text-gray-200 text-sm md:text-base mb-4">
                         <div dangerouslySetInnerHTML={{ __html: courseData.sections[4].values[0].description }} />
                       </div>
-                      <button
-                        onClick={() =>
-                          window.open(
-                            courseData.sections[4].values[0].cta.clicked_url,
-                            '_blank'
-                          )
-                        }
-                        className="flex items-center justify-center bg-gradient-to-r from-[#1CBF73] to-[#3EDC8A] text-white px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-semibold shadow hover:from-[#179e5d] hover:to-[#2bbf6e] transition-colors w-full sm:w-auto"
-                      >
-                        <svg className="mr-2" width="20" height="20" fill="none" viewBox="0 0 20 20">
-                          <rect width="20" height="20" rx="4" fill="#fff" fillOpacity="0.15" />
-                          <path d="M10 4v8m0 0l-3-3m3 3l3-3m-7 7h10" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        {courseData.sections[4].values[0].cta.text}
-                      </button>
+                      <div className="flex items-center justify-center md:justify-start">
+                        <button
+                          onClick={() =>
+                            window.open(
+                              courseData.sections[4].values[0].cta.clicked_url,
+                              '_blank'
+                            )
+                          }
+                          className="flex items-center justify-center bg-gradient-to-r from-[#1CBF73] to-[#3EDC8A] text-white px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-semibold shadow hover:from-[#179e5d] hover:to-[#2bbf6e] transition-colors"
+                          style={{ width: "auto", minWidth: "160px" }}
+                        >
+                          <svg className="mr-2" width="20" height="20" fill="none" viewBox="0 0 20 20">
+                            <rect width="20" height="20" rx="4" fill="#fff" fillOpacity="0.15" />
+                            <path d="M10 4v8m0 0l-3-3m3 3l3-3m-7 7h10" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          {courseData.sections[4].values[0].cta.text}
+                        </button>
+                      </div>
                     </div>
                     <div className="w-full h-40 sm:h-48 md:w-56 md:h-48 flex-shrink-0 mt-4 md:mt-0 flex items-center justify-center">
                       <Image

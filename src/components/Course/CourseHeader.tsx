@@ -1,6 +1,5 @@
 
 'use client'
-import { getCourses } from '@/services/Courses';
 import Image from 'next/image';
 
 interface CourseHeaderProps {
@@ -23,12 +22,12 @@ const CourseHeader: React.FC<CourseHeaderProps> = ({ courseData }) => {
                 <Image src="https://cdn.10minuteschool.com/images/svg/10mslogo-svg.svg" alt="10 Minutes School" width={100} height={100} />
               </span>
             </div>
-              <div className="flex items-center space-x-4">
-                {/* Language Toggle Button */}
-                <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
-                  Enroll Now
-                </button>
-              </div>
+            <div className="flex items-center space-x-4">
+              {/* Language Toggle Button */}
+              <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                Enroll Now
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -13,15 +13,12 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 const Course = ({ courseData }: { courseData: any }) => {
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
+
   // FAQ Accordion with toggle, show 4 by default, "See all" button
   const [showAllFaq, setShowAllFaq] = useState(false);
   const [openIndexes, setOpenIndexes] = useState<number[]>([]);
   const [playingVideos, setPlayingVideos] = useState<{ [key: number]: boolean }>({});
   const [selectedVideo, setSelectedVideo] = useState<string>('');
-
-  console.log(courseData)
 
 
   if (!courseData) {
@@ -43,18 +40,9 @@ const Course = ({ courseData }: { courseData: any }) => {
         ? prev.filter((i) => i !== idx)
         : [...prev, idx]
     );
-  }; console.log();
+  };
 
   const mainVideo = courseData.media.find((m: any) => m.name === 'preview_gallery' && m.resource_type === 'video');
-  const thumbnail = courseData.media.find((m: any) => m.name === 'thumbnail');
-  const squareImage = courseData.media.find((m: any) => m.name === 'sqr_img');
-
-  // Function to extract YouTube video ID from URL
-  const getYouTubeVideoId = (url: string) => {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
-  };
 
   return (
     <div className=" mx-auto min-h-screen relative z-20">

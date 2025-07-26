@@ -1,20 +1,36 @@
 
 'use client'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
 interface CourseHeaderProps {
   courseData: any;
+  lang: string;
 }
 
+const LANGS = [
+  { code: 'en', label: 'English' },
+  { code: 'bn', label: 'বাংলা' },
+];
 
-const CourseHeader: React.FC<CourseHeaderProps> = ({ courseData }) => {
+const CourseHeader: React.FC<CourseHeaderProps> = ({ courseData, lang }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-
+  // Toggle between 'en' and 'bn'
+  const handleLangToggle = () => {
+    const nextLang = lang === 'en' ? 'bn' : 'en';
+    // Build new search params
+    const params = new URLSearchParams(searchParams?.toString() || '');
+    params.set('lang', nextLang);
+    router.replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <>
-      {/* Header */}
-      <div className="bg-white shadow-sm">
+      {/* Sticky Header */}
+      <div className="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -24,6 +40,13 @@ const CourseHeader: React.FC<CourseHeaderProps> = ({ courseData }) => {
             </div>
             <div className="flex items-center space-x-4">
               {/* Language Toggle Button */}
+              <button
+                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                onClick={handleLangToggle}
+                aria-label="Toggle language"
+              >
+                {lang === 'en' ? 'BN' : 'EN'}
+              </button>
               <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
                 Enroll Now
               </button>

@@ -12,7 +12,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const Course = ({ courseData }: { courseData: any }) => {
+const Course = ({ courseData, lang }: { courseData: any, lang: string }) => {
 
   // FAQ Accordion with toggle, show 4 by default, "See all" button
   const [showAllFaq, setShowAllFaq] = useState(false);
@@ -31,7 +31,7 @@ const Course = ({ courseData }: { courseData: any }) => {
 
 
 
-  const faqs = courseData.sections[15].values || [];
+  const faqs = courseData?.sections?.[15]?.values || [];
   const visibleFaqs = showAllFaq ? faqs : faqs.slice(0, 4);
 
   const handleToggle = (idx: number) => {
@@ -46,8 +46,7 @@ const Course = ({ courseData }: { courseData: any }) => {
 
   return (
     <div className=" mx-auto min-h-screen relative z-20">
-      <CourseHeader courseData={courseData} />
-
+      <CourseHeader courseData={courseData} lang={lang} />
       {/* Main Content Container */}
       <div className="container mx-auto  z-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -309,58 +308,59 @@ const Course = ({ courseData }: { courseData: any }) => {
             </div>
 
             {/* FAQ Section */}
-
-            <div className="bg-white rounded-lg p-6">
-              <h3 className="text-xl font-semibold mb-4">{courseData.sections[15].name}</h3>
-              <div className="space-y-2">
-                {visibleFaqs.map((faq: any, index: number) => {
-                  // Use the index in the full faqs array for openIndexes
-                  const globalIdx = showAllFaq ? index : index;
-                  const isOpen = openIndexes.includes(globalIdx);
-                  return (
-                    <div key={globalIdx} className="border border-gray-200 rounded-lg">
-                      <button
-                        type="button"
-                        className="w-full text-left p-4 flex items-center justify-between hover:bg-gray-50"
-                        onClick={() => handleToggle(globalIdx)}
-                      >
-                        <span className="font-medium text-sm">{faq.question}</span>
-                        <svg
-                          className={`w-5 h-5 transform transition-transform ${isOpen ? "rotate-180" : ""}`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+            {courseData?.sections[15] && (
+              <div className="bg-white rounded-lg p-6">
+                <h3 className="text-xl font-semibold mb-4">{courseData?.sections[15]?.name || 'FAQ'}</h3>
+                <div className="space-y-2">
+                  {visibleFaqs.map((faq: any, index: number) => {
+                    // Use the index in the full faqs array for openIndexes
+                    const globalIdx = showAllFaq ? index : index;
+                    const isOpen = openIndexes.includes(globalIdx);
+                    return (
+                      <div key={globalIdx} className="border border-gray-200 rounded-lg">
+                        <button
+                          type="button"
+                          className="w-full text-left p-4 flex items-center justify-between hover:bg-gray-50"
+                          onClick={() => handleToggle(globalIdx)}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </button>
-                      {isOpen && (
-                        <div className="px-4 pb-4">
-                          <div
-                            className="text-sm text-gray-700"
-                            dangerouslySetInnerHTML={{ __html: faq.answer }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-                {!showAllFaq && faqs.length > 4 && (
-                  <button
-                    className="text-green-600 font-medium hover:underline"
-                    onClick={() => setShowAllFaq(true)}
-                    type="button"
-                  >
-                    See all
-                  </button>
-                )}
+                          <span className="font-medium text-sm">{faq.question}</span>
+                          <svg
+                            className={`w-5 h-5 transform transition-transform ${isOpen ? "rotate-180" : ""}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+                        {isOpen && (
+                          <div className="px-4 pb-4">
+                            <div
+                              className="text-sm text-gray-700"
+                              dangerouslySetInnerHTML={{ __html: faq.answer }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  {!showAllFaq && faqs.length > 4 && (
+                    <button
+                      className="text-green-600 font-medium hover:underline"
+                      onClick={() => setShowAllFaq(true)}
+                      type="button"
+                    >
+                      See all
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Right Sidebar */}
